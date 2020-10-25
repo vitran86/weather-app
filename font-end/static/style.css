@@ -1,0 +1,367 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Black+Ops+One&family=Monoton&family=Ultra&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --background1: rgb(241, 138, 78);
+  --background2: rgb(240, 200, 182);
+  --background3: rgb(192, 144, 24);
+}
+
+body {
+  font-family: "montserrat", sans-serif;
+  font-size: 12px;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 3px;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(white, var(--background1) 200%);
+  background: url(/static/pic/cherryflower.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.hero-box {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 25px 0 25px 0;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-color: red;
+  top: 25%;
+  left: 22%;
+  width: 60%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+.hero-box {
+  margin-top: 1.5em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-box.active {
+  opacity: 1;
+}
+
+.headline {
+  margin-top: 15px;
+  font-size: 2.5em;
+  font-weight: 400;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-align: center;
+  color: var(--background1);
+  z-index: 10;
+}
+
+/* Input of user feeling & Zipcode/city name */
+
+input {
+  margin: 0 auto;
+  margin-top: 1em;
+  margin-right: 2em;
+  width: 250px;
+  height: 1.8em;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.25em;
+  border-radius: 0 8px 0 8px;
+  border-bottom: 1px solid var(--background1);
+  border: none;
+}
+
+.search-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+button#search-btn {
+  position: absolute;
+  top: 100px;
+  left: 35%;
+  width: 100px;
+  height: 30px;
+  font-size: 1.2em;
+  margin-top: 1em;
+  margin: 0 auto;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(white, var(--background1) 50%);
+  transition: background 0.5s ease;
+}
+
+button#search-btn:hover {
+  background: linear-gradient(white, var(--background1));
+}
+
+h2 {
+  text-align: center;
+  line-height: 1.2em;
+  margin-bottom: 10px;
+}
+
+/* weather info display*/
+
+.weather-container {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+#date {
+  text-align: center;
+  font-size: 1.5em;
+  margin-top: 10px;
+}
+
+#location {
+  padding: 5px 5px;
+  width: 100%;
+  text-align: center;
+  font-size: 2em;
+  background: linear-gradient(white, var(--background1) 70%);
+  border-radius: 5px;
+}
+
+#weather-display {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+#temp {
+  font-size: 40px;
+  align-self: center;
+  color: var(--background3);
+}
+
+#real-feel {
+  position: absolute;
+  border-bottom: 1px solid var(--background3);
+  font-size: 1.2em;
+  bottom: 0;
+  right: 5%;
+}
+
+#temp-min {
+  margin-right: 25px;
+}
+
+svg {
+  padding: 2px;
+  fill: black;
+  border-radius: 2px;
+  background: var(--background2);
+}
+
+/* Background for app*/
+
+#background-app {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* History section*/
+
+.history-entry {
+  align-self: flex-start;
+  margin: 0 auto;
+  margin-top: 520px;
+  width: 100%;
+  height: auto;
+  background-color: var(--background2);
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 0 25px 0 25px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.history-entry.active {
+  opacity: 1;
+}
+.history-entry h2 {
+  padding: 5px 5px;
+  font-size: 1.5em;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  background-color: var(--background1);
+}
+
+#history {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+/* history entry items*/
+
+#history-entry-item {
+  font-family: Arial, Helvetica, sans-serif;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-gap: 5px;
+  overflow-y: scroll;
+  max-height: 410px;
+}
+
+.history-entry-item:last-child {
+  background: linear-gradient(var(--background2), white);
+}
+
+.history-entry-item {
+  background-color: var(--background2);
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0 25px 0 25px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  margin-bottom: 0.75em;
+  margin-left: 0.75em;
+}
+.history-entry-item:hover {
+  background: linear-gradient(var(--background2), white);
+}
+
+.history-entry-item:hover .item-title {
+  background: linear-gradient(white, var(--background1) 90%);
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.item-title {
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  background-color: var(--background2);
+  padding: 5px 5px;
+  border-radius: 0 25px 0 0;
+}
+
+.item-title h3 {
+  font-size: 1.5em;
+}
+
+.item-details img {
+  height: 70px;
+  width: 70px;
+  animation: iconRun 10s linear infinite;
+}
+
+@keyframes iconRun {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(30px) scale(1.5);
+    opacity: 0.7;
+  }
+  70% {
+    transform: translateX(50px) scale(1.2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(80px);
+    opacity: 0.1;
+  }
+}
+
+.item-summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-temp-max {
+  font-size: 1.5em;
+  font-weight: bold;
+  background: linear-gradient(white, red);
+  margin-right: 5px;
+  border-radius: 5px;
+  padding: 5px 5px;
+}
+
+.item-temp-min {
+  font-size: 1.5em;
+  font-weight: bold;
+  background: linear-gradient(white, rgb(15, 109, 250));
+  margin-right: 5px;
+  border-radius: 5px;
+  padding: 5px 5px;
+}
+
+.item-additional-info {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Media queries*/
+
+@media screen and (min-width: 600px) {
+  .search-box {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  button#search-btn {
+    top: 50px;
+    left: 38%;
+  }
+  .hero-box {
+    top: 18%;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  .hero-box {
+    max-width: 35%;
+    left: 2%;
+  }
+
+  .history-entry {
+    margin-top: 8vh;
+    margin-left: 40vw;
+    width: 58%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+}
