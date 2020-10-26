@@ -1,6 +1,6 @@
-# weather journal app
+# Weather journal app
 
-Description
+## Description
 
 - This weather journal is created as an asynchronous web app which is used a web API (OpenWeatherMap API) and taken user data (location) to dynamically display the local weather infomation and create the entry post.
 - This app was deployed at Netlify at ......
@@ -23,9 +23,9 @@ Installation
 
 Instructions for Use
 
-- Enter your feelings in the "How are you feeling today?" space.
+- Enter your feelings in the *"How are you feeling today?"* space.
 - Enter a US zip code or a world city name.
-- Press the "Get weather" button to make your entry.
+- Press the *"Get weather"* button to make your entry.
 
 Author
 This project was designed and coded by Vi Tran.
