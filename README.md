@@ -11,16 +11,16 @@
 
 ### Installation
 
-- Run local server : in the Node terminal of root folder, run these commands:
+- Run local server : in the Node terminal of root folder WEARTHER APP, run these commands:
 
-  cd back-end
-  npm install
-  npm run start
+  - cd back-end
+  - npm install
+  - npm run start
 
-- Run the app : in another Node terminal of root folder, run these commands:
+- Run the app : in another Node terminal of root folder WEATHER APP, run these commands:
 
-  cd front-end
-  npx live-server
+  - cd front-end
+  - npx live-server
 
 ### Instructions for Use
 
