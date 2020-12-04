@@ -1,38 +1,24 @@
 // Create a new date instance dynamically with JS
-function takeDate() {
-  let d = new Date();
+function takeDate(input) {
+  let d = new Date(input);
   let months = [
-    "January",
-    "February",
-    "March",
-    "April",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
     "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
-  return (newDate = `${
-    months[d.getMonth()]
-  } ${d.getDate()}, ${d.getFullYear()}`);
+  return (newDate = `${months[d.getMonth()]} ${
+    d.getDate() + 1
+  }, ${d.getFullYear()}`);
 }
-
-// check the input in search box is a ZipCode or an city name
-const search = (searchTerm) => {
-  searchTerm = searchTerm.trim();
-  if (
-    searchTerm.length === 5 &&
-    Number.parseInt(searchTerm) !== NaN &&
-    Number.parseInt(searchTerm) + "" === searchTerm
-  ) {
-    searchMethod = "zip";
-  } else {
-    searchMethod = "q";
-  }
-};
 
 // create function parse timestamp to time (use in set sunrise & sunset time)
 function convertTime(timestamp) {
@@ -42,8 +28,8 @@ function convertTime(timestamp) {
 }
 
 // create function to convert temperature from K to F
-function convertToFahrenheit(temp) {
-  const tempF = ((temp - 273.15) * 9) / 5 + 32;
+function convertToFahrenheit(tempC) {
+  const tempF = tempC * 1.8 + 32;
   return `${Math.round(tempF)} °F`;
 }
 
@@ -57,60 +43,6 @@ function displayIcon(icon) {
   weatherIcon.innerHTML = "";
   weatherIcon.appendChild(weatherImg);
 }
-
-// create function to update UI
-function displayWeatherInfo(data) {
-  let cityEL = document.getElementById("city");
-  cityEL.textContent = data.city;
-
-  let dateEL = document.getElementById("date");
-  dateEL.textContent = takeDate();
-
-  let countryEL = document.getElementById("countryCode");
-  countryEL.textContent = data.country;
-
-  let icon = data.icon;
-  displayIcon(icon);
-  displayBackground(icon);
-
-  let tempEL = document.getElementById("temp");
-  tempEL.textContent = convertToFahrenheit(data.temp);
-
-  let realFeelEL = document.getElementById("feel-like");
-  realFeelEL.textContent = convertToFahrenheit(data.feelLike);
-
-  let tempMinEL = document.getElementById("temp-min");
-  tempMinEL.textContent = convertToFahrenheit(data.tempMin);
-  tempMinEL.style.fontWeight = 400;
-
-  let tempMaxEL = document.getElementById("temp-max");
-  tempMaxEL.textContent = convertToFahrenheit(data.tempMax);
-  tempMaxEL.style.fontWeight = 400;
-
-  let descriptionEL = document.getElementById("description");
-  descriptionEL.textContent = data.description;
-  descriptionEL.style.fontWeight = 400;
-
-  let humidityEL = document.getElementById("humidity");
-  humidityEL.textContent = `${data.humidity}%`;
-  humidityEL.style.fontWeight = 400;
-
-  let windSpeedEL = document.getElementById("wind-speed");
-  windSpeedEL.textContent = `${data.windSpeed} mph`;
-  windSpeedEL.style.fontWeight = 400;
-
-  let sunriseEL = document.getElementById("sunrise-time");
-  sunriseEL.textContent = convertTime(data.sunriseTimeStamp);
-  sunriseEL.style.fontWeight = 400;
-
-  let sunsetEL = document.getElementById("sunset-time");
-  sunsetEL.textContent = convertTime(data.sunsetTimeStamp);
-  sunsetEL.style.fontWeight = 400;
-
-  let feelingEL = document.getElementById("mood");
-  feelingEL.textContent = data.mood;
-}
-
 function displayBackground(icon) {
   let background = document.getElementById("background-container");
   let backgroundImg = document.createElement("img");
@@ -120,90 +52,91 @@ function displayBackground(icon) {
   background.appendChild(backgroundImg);
 }
 
-// create function to generate history entry (structure looks like below) dynamically
+// create function to update UI
+function displayWeatherInfo(data) {
+  let cityEL = document.getElementById("city");
+  cityEL.textContent = `Trip to: ${data[0].cityName}`;
+
+  let countryEL = document.getElementById("countryName");
+  countryEL.textContent = data[0].countryName;
+
+  let dateStartEL = document.getElementById("start-date");
+  const departDate = document.querySelector("#departure-date").value;
+  dateStartEL.textContent = `Departing: ${takeDate(departDate)}`;
+
+  let dateEndEL = document.getElementById("end-date");
+  const arrivalDate = document.querySelector("#arrival-date").value;
+  dateEndEL.textContent = `Arrival: ${takeDate(arrivalDate)}`;
+
+  let imgEL = document.getElementById("city-pic");
+  imgEL.setAttribute("src", `${data[2].pic}`);
+  imgEL.setAttribute("alt", `${data[0].cityName}`);
+
+  let tripEL = document.getElementById("tripName");
+  tripEL.textContent = data[0].cityName;
+
+  let daysLeftEL = document.getElementById("calc-day");
+  daysLeftEL.textContent = "120";
+
+  data[1].forEach((objectData) => {
+    const weatherForecast = document.querySelector("#weather");
+    const weatherObject = generateWeatherForecast(objectData);
+    weatherForecast.appendChild(weatherObject);
+  });
+}
+
+// create function to generate waether forecast (structure looks like below) dynamically
 /* 
-<ul id="history-entry-item">
-  <li class="history-entry-item" >
-    <div class="item-title">
-      <h3>Gambrills</h3>
-      <p>oct 21 2020</p>
-    </div>
-    <div class="item-details">
-      <img class="item-img" src="/static/weather-icon-png/02d.png">
-      <div class="item-summary">
-        <div class = "item-temp-max">79</div>
-        <div class = "item-temp-min">65</div>
-        <div class = "item-description">Few clouds</div>
-      </div>
-      <div class="item-additional-info">
-        <div class="item-humidity">Humidity: 77%</div>
-        <div class="item-wind">Wind speed: 3.35mph</div>
-      </div>
-    </div>   
-  </li>
-</ul>  
+<div class="weather-forecast">
+  <h3>Weather forecast in next 16 days</h3>
+  <ul id="weather">
+    <li class=weather-items>
+      <div class="forecast-date">Dec 24,2020</div>
+      <div><img class="forecast-icon" src="/static/weather-icon-png/a01d.png" width="50" height="50"></div>
+      <div class="forecast-minTemp">L: 7 C</div>
+      <div class="forecast-maxTemp">H: 17 C</div>
+      <div class="forecart-description">broken cloudy</div>
+    </li>
+  </ul>
+</div>
  */
 
-function generateNewEntry(data) {
-  const newEntry = document.createElement("li");
-  newEntry.classList.add("history-entry-item");
+function generateWeatherForecast(data) {
+  const newForecast = document.createElement("li");
+  newForecast.classList.add("weather-items");
 
-  // Entry title
-  const titleDiv = document.createElement("div");
-  titleDiv.classList.add("item-title");
-  const cityName = document.createElement("h3");
-  cityName.innerHTML = data.city;
-  titleDiv.appendChild(cityName);
-  const entryDate = document.createElement("p");
-  entryDate.innerHTML = takeDate();
-  titleDiv.appendChild(entryDate);
-  newEntry.appendChild(titleDiv);
+  //forecast date
+  const forecastDate = document.createElement("div");
+  forecastDate.classList.add("forecast-date");
+  forecastDate.innerHTML = takeDate(data.forecastDate);
+  newForecast.appendChild(forecastDate);
 
-  // Entry detail
-  const detailsDiv = document.createElement("div");
-  detailsDiv.setAttribute("class", "item-details");
   // weather icon
-  const entryImg = document.createElement("img");
+  const iconContainer = document.createElement("div");
+  const weatherIcon = document.createElement("img");
   const icon = data.icon;
-  entryImg.setAttribute("src", `static/weather-icon-png/${icon}.png`);
-  entryImg.setAttribute("class", "item-img");
-  detailsDiv.appendChild(entryImg);
-  // weather summary
-  const summaryDiv = document.createElement("div");
-  summaryDiv.setAttribute("class", "item-summary");
-  //temp max
-  const tempMaxEntry = document.createElement("div");
-  tempMaxEntry.classList.add("item-temp-max");
-  tempMaxEntry.innerHTML = convertToFahrenheit(data.tempMax);
-  summaryDiv.appendChild(tempMaxEntry);
+  weatherIcon.setAttribute("src", `static/weather-icon-png/${icon}.png`);
+  weatherIcon.setAttribute("class", "forecast-icon");
+  iconContainer.appendChild(weatherIcon);
+  newForecast.appendChild(iconContainer);
+
   //temp min
-  const tempMinEntry = document.createElement("div");
-  tempMinEntry.classList.add("item-temp-min");
-  tempMinEntry.innerHTML = convertToFahrenheit(data.tempMin);
-  summaryDiv.appendChild(tempMinEntry);
+  const tempMin = document.createElement("div");
+  tempMin.classList.add("forecast-minTemp");
+  tempMin.innerHTML = `L: ${convertToFahrenheit(data.minTemp)}`;
+  newForecast.appendChild(tempMin);
+
+  //temp max
+  const tempMax = document.createElement("div");
+  tempMax.classList.add("forecast-maxTemp");
+  tempMax.innerHTML = `H: ${convertToFahrenheit(data.maxTemp)}`;
+  newForecast.appendChild(tempMax);
+
   //description
-  const descriptionEntry = document.createElement("div");
-  descriptionEntry.classList.add("item-description");
-  descriptionEntry.innerHTML = data.description;
-  summaryDiv.appendChild(descriptionEntry);
-  detailsDiv.appendChild(summaryDiv);
+  const description = document.createElement("div");
+  description.classList.add("forecart-description");
+  description.innerHTML = data.description;
+  newForecast.appendChild(description);
 
-  // additional info
-  const additionalInfoDiv = document.createElement("div");
-  additionalInfoDiv.setAttribute("class", "item-additional-info");
-  // humidity
-  const humidityEntry = document.createElement("div");
-  humidityEntry.classList.add("item-humidity");
-  humidityEntry.innerHTML = `Humidity: ${data.humidity} %`;
-  additionalInfoDiv.appendChild(humidityEntry);
-  // wind speed
-  const winSpeedEntry = document.createElement("div");
-  winSpeedEntry.classList.add("item-wind");
-  winSpeedEntry.innerHTML = `Win speed: ${data.windSpeed} mph`;
-  additionalInfoDiv.appendChild(winSpeedEntry);
-  detailsDiv.appendChild(additionalInfoDiv);
-
-  newEntry.appendChild(detailsDiv);
-
-  return newEntry;
+  return newForecast;
 }
