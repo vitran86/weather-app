@@ -1,138 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/style.css" />
-    <title>Travel Planner</title>
-  </head>
-  <body>
-    <div id="app">
-      <div class="headline">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <p>Travel Planner</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href = "/static/style.css">
+    <title>Weather Journal</title>
+</head>
+<body>
+    
+    <div id = "app">
+      <div id="background-container"></div>
+      <div class ="headline">
+        Weather Journal App
       </div>
-      <div class="info-box">
-        <div>
-          <label for="text"> Start day: </label>
-          <input type="date" required id="departure-date" />
-        </div>
-        <div>
-          <label for="text"> End day: </label>
-          <input type="date" required id="arrival-date" />
-        </div>
-        <div>
-          <label for="text"> My trip from: </label>
-          <input
-            type="text"
-            id="dep-city-name"
-            required
-            placeholder="Enter city name"
-          />
-          <br>
-          <label for="text"> To: </label>
-          <input
-            type="text"
-            id="arr-city-name"
-            required
-            placeholder="Enter city name"
-          />
-        </div>
-        <br />
-        <button type="submit" id="add-btn">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-          >
-            <path d="M24 9h-9v-9h-6v9h-9v6h9v9h6v-9h9z" />
-          </svg>
-          Add trip
-        </button>
+      <div class ="search-box">  
+        <input type="text" id="user-feeling" placeholder="How's your feeling today?">
+        <input type="text" id="search-input" placeholder="Enter zip code or city name here">
+        <br>
+        <button id="search-btn" type="submit"> Get weather</button>
       </div>
 
-      <div class="hero-box">
-        <div class="recent-entry-box">
-          <div class="container">
-            <div id="location">
-              <span id="city"></span> , <span id="countryName"></span>
-              <div id="start-date"></div>
-              <div id="end-date"></div>
+      <div class ="hero-box">
+        <div class = "recent-entry-box">
+          <h2>Current weather in</h2>
+          <div class ="weather-container">
+            <div id = "location">  <span id="city"></span> , <span id="countryCode"></span></div>
+            <div id = "date"> </div> 
+            <div id = "weather-display">
+              <span id="weather-icon"></span>
+              <span id= "temp"></span>
+              <span id= "real-feel">Feel like: <span id="feel-like"></span></span>  
             </div>
-            <img id="city-pic" src="" alt="" width="350" height="250" />
-
-            <div>
-              <h3>
-                Trip to <span id="tripName"></span> is
-                <span id="calc-day"></span> days away.
-              </h3>
-            </div>
-          <div>
-            <button type="submit" id="weather-detail">Get weather Forecast</button>
-              <br />
-            <div class="weather-forecast">
-              <h3>Weather forecast in next 16 days</h3>
-              <ul id="weather"></ul>
-            </div>
-          </div>
-
-            <div>
-              <button type="submit" id="add-note">Add Note</button>
-              <br />
-              <div class="note">
-                <textarea
-                  id="note"
-                  rows="10"
-                  cols="50"
-                  placeholder="Add note here..."
-                ></textarea>
-              </div>
-              <br />
-              <button type="submit" id="add-packing">Packing list</button>
-              <br />
-              <div class="packing-list active">
-                <textarea
-                  id="packing"
-                  rows="10"
-                  cols="50"
-                  placeholder="Add packing list here..."
-                ></textarea>
-              </div>
-            </div>
-            <div>
-              <button type="submit" id="save-btn">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M24 9h-9v-9h-6v9h-9v6h9v9h6v-9h9z" />
-                </svg>
-                Save trip
-              </button>
-              <button type="submit" id="delete-btn">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M0 10h24v4h-24z" />
-                </svg>
-                Remove trip
-              </button>
-            </div>
+            <div id = "low-high">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.5 2c.827 0 1.5.673 1.5 1.5v7.525c0 1.569.514 2.287 1.411 3.05 1.01.858 1.589 2.106 1.589 3.425 0 2.481-2.019 4.5-4.5 4.5s-4.5-2.019-4.5-4.5c0-1.319.579-2.567 1.59-3.425.896-.761 1.41-1.48 1.41-3.05v-7.525c0-.827.673-1.5 1.5-1.5zm0-2c-1.933 0-3.5 1.567-3.5 3.5v7.525c0 .587-.258 1.145-.705 1.525-1.403 1.192-2.295 2.965-2.295 4.95 0 3.59 2.909 6.5 6.5 6.5s6.5-2.91 6.5-6.5c0-1.985-.892-3.758-2.295-4.95-.447-.38-.705-.938-.705-1.525v-7.525c0-1.933-1.567-3.5-3.5-3.5zm2.107 14.718c-1.012-.89-1.607-1.734-1.607-3.22v-1.498h-1v1.498c0 1.484-.597 2.332-1.607 3.22-.794.698-1.393 1.642-1.393 2.782 0 1.933 1.567 3.5 3.5 3.5s3.5-1.567 3.5-3.5c0-1.14-.599-2.083-1.393-2.782zm3.393-8.718v2h8v-2h-8z"/></svg> Low : <span id="temp-min"></span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.5 2c.827 0 1.5.673 1.5 1.5v7.525c0 1.569.514 2.287 1.411 3.05 1.01.858 1.589 2.106 1.589 3.425 0 2.481-2.019 4.5-4.5 4.5s-4.5-2.019-4.5-4.5c0-1.319.579-2.567 1.59-3.425.896-.761 1.41-1.48 1.41-3.05v-7.525c0-.827.673-1.5 1.5-1.5zm0-2c-1.933 0-3.5 1.567-3.5 3.5v7.525c0 .587-.258 1.145-.705 1.525-1.403 1.192-2.295 2.965-2.295 4.95 0 3.59 2.909 6.5 6.5 6.5s6.5-2.91 6.5-6.5c0-1.985-.892-3.758-2.295-4.95-.447-.38-.705-.938-.705-1.525v-7.525c0-1.933-1.567-3.5-3.5-3.5zm2.107 14.718c-1.012-.89-1.607-1.734-1.607-3.22v-6.498h-1v6.498c0 1.484-.597 2.332-1.607 3.22-.794.698-1.393 1.642-1.393 2.782 0 1.933 1.567 3.5 3.5 3.5s3.5-1.567 3.5-3.5c0-1.14-.599-2.083-1.393-2.782zm11.393-8.718h-3v-3h-2v3h-3v2h3v3h2v-3h3v-2z"/></svg> High: <span id="temp-max"></span></div>
+            <div id = "weather-description"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5c3.453 0 5.891 2.797 5.567 6.78 1.745-.046 4.433.751 4.433 3.72 0 1.93-1.57 3.5-3.5 3.5h-13c-1.93 0-3.5-1.57-3.5-3.5 0-2.797 2.479-3.833 4.433-3.72-.167-4.218 2.208-6.78 5.567-6.78zm0-2c-4.006 0-7.267 3.141-7.479 7.092-2.57.463-4.521 2.706-4.521 5.408 0 3.037 2.463 5.5 5.5 5.5h13c3.037 0 5.5-2.463 5.5-5.5 0-2.702-1.951-4.945-4.521-5.408-.212-3.951-3.473-7.092-7.479-7.092z"/></svg>   Weather description: <span id ="description" ></span></div>
+            <div id = "moistness"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M11.234 14.141c0 .714-.138 1.249-.414 1.608-.276.358-.681.538-1.215.538-.512 0-.907-.184-1.187-.552-.278-.367-.418-.899-.418-1.594 0-1.418.535-2.127 1.606-2.127.524 0 .927.184 1.208.552.28.368.42.893.42 1.575zm-2.061.01c0 .394.035.688.105.882.07.194.182.291.337.291.298 0 .447-.391.447-1.173 0-.776-.149-1.163-.447-1.163-.155 0-.268.095-.337.286-.07.19-.105.483-.105.877zm5.263-2.039l-3.774 6.804h-1.117l3.774-6.804h1.117zm1.564 4.747c0 .711-.138 1.245-.414 1.603-.276.359-.681.538-1.215.538-.512 0-.908-.184-1.187-.552-.279-.368-.419-.897-.419-1.589 0-1.418.535-2.127 1.606-2.127.524 0 .927.184 1.208.552.281.367.421.893.421 1.575zm-2.062.009c0 .394.035.688.105.882.07.194.182.291.337.291.298 0 .447-.391.447-1.173 0-.776-.149-1.163-.447-1.163-.155 0-.268.095-.337.286-.07.191-.105.484-.105.877zm-1.938-11.308c2.725 5.186 6 6.718 6 10.515 0 3.267-2.691 5.925-6 5.925s-6-2.658-6-5.925c0-3.797 3.274-5.327 6-10.515zm0-5.56c-2.333 8.958-8 10.188-8 16.075 0 4.378 3.579 7.925 8 7.925 4.421 0 8-3.547 8-7.925 0-5.887-5.667-7.117-8-16.075z"/></svg>   Humidity: <span id="humidity"></span> </div>
+            <div id = "wind"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7 12l13-4v-4l-13-4-5 5v-2h-2v21h2v-17l5 5zm8-8.492l2 .615v3.754l-2 .615v-4.984zm-5-1.539l2 .615v6.831l-2 .615v-8.061zm-3-.555v9.172l-4.586-4.586 4.586-4.586zm17 12.086c0 1.932-1.568 3.5-3.5 3.5h-15.5v-2h15.5c.827 0 1.5-.673 1.5-1.5s-.673-1.5-1.5-1.5c-.774 0-1.404.592-1.486 1.345l-1.886-.727c.395-1.502 1.748-2.618 3.372-2.618 1.932 0 3.5 1.568 3.5 3.5zm-6 7.5c0 1.656-1.344 3-3 3-1.16 0-2.155-.666-2.654-1.631l1.749-.956c.158.345.502.587.905.587.552 0 1-.448 1-1s-.448-1-1-1h-10v-2h10c1.656 0 3 1.344 3 3z"/></svg>  Wind-speed: <span id="wind-speed"></span> </div>
+            <div id = "sunrise"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4.069 17c-.041.328-.069.661-.069 1s.028.672.069 1h-4.069v-2h4.069zm6.931-7h2v-5h3l-4-4-4 4h3v5zm-3.897 1.688l-2.88-2.881-1.415 1.414 2.881 2.881c.411-.529.885-1.003 1.414-1.414zm12.828 5.312c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-1.931 1c0 .341-.035.674-.09 1h-11.82c-.055-.326-.09-.659-.09-1 0-3.314 2.686-6 6-6s6 2.686 6 6zm-2.142-1c-.448-1.72-2.001-3-3.858-3-1.858 0-3.41 1.28-3.857 3h7.715zm3.92-8.193l-2.881 2.881c.528.411 1.003.886 1.414 1.414l2.881-2.881-1.414-1.414zm4.222 12.193h-24v2h24v-2z"/></svg>  Sunrise: <span id="sunrise-time"></span> </div>
+            <div id = "sunset"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4.069 17c-.041.328-.069.661-.069 1s.028.672.069 1h-4.069v-2h4.069zm8.931-16h-2v5h-3l4 4 4-4h-3v-5zm-5.897 10.688l-2.88-2.881-1.415 1.414 2.881 2.881c.411-.529.885-1.003 1.414-1.414zm12.828 5.312c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-1.931 1c0 .341-.035.674-.09 1h-11.82c-.055-.326-.09-.659-.09-1 0-3.314 2.685-6 6-6 3.314 0 6 2.686 6 6zm-2.142-1c-.448-1.72-2.001-3-3.858-3-1.858 0-3.41 1.28-3.857 3h7.715zm3.92-8.193l-2.881 2.881c.528.411 1.003.886 1.414 1.414l2.881-2.881-1.414-1.414zm4.222 12.193h-24v2h24v-2z"/></svg>  Sunset: <span id="sunset-time"></span> </div>
+            <div id = "feeling"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.507 13.941c-1.512 1.195-3.174 1.931-5.506 1.931-2.334 0-3.996-.736-5.508-1.931l-.493.493c1.127 1.72 3.2 3.566 6.001 3.566 2.8 0 4.872-1.846 5.999-3.566l-.493-.493zm-9.007-5.941c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5z"/></svg> You feels: <span id ="mood"></span></div>
           </div>
         </div>
       </div>
 
+      <div class="history-entry">
+        <h2> History Entry </h2>
+        <ul id="history-entry-item">
+
+        </ul>
+      </div>
       
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="app-function.js"></script>
     <script src="app.js"></script>
-  </body>
+    
+
+</body>
 </html>
